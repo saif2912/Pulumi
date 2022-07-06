@@ -1,6 +1,6 @@
 name: rahman
 runtime: yaml
-description: A minimal Google Cloud Pulumi YAML progra
+description: A minimal Google Cloud Pulumi YAML program
 
 resources:
   # Create a GCP resource (Storage Bucket)
