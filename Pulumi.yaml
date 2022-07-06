@@ -1,0 +1,43 @@
+name: rahman
+runtime: yaml
+description: A minimal Google Cloud Pulumi YAML progra
+
+resources:
+  # Create a GCP resource (Storage Bucket)
+  test:
+    type: gcp:storage:Bucket
+    properties:
+      location: US
+  defaultAccount:
+    type: gcp:serviceAccount:Account
+    properties:
+      accountId: serviceaccountid
+      displayName: Service Account
+  instance1:
+    type: gcp:compute:Instance
+    properties:
+      machineType: custom-6-20480
+      zone: us-central1-a
+      tags:
+        - foo
+        - bar
+      bootDisk:
+        initializeParams:
+          image: debian-cloud/debian-9
+      scratchDisks:
+        - interface: SCSI
+      networkInterfaces:
+        - network: default
+          accessConfigs:
+            - {}
+      metadata:
+        foo: bar
+      metadataStartupScript: echo hi > /test.txt
+      serviceAccount:
+        email: ${defaultAccount.email}
+        scopes:
+          - cloud-platform
+
+outputs:
+  # Export the DNS name of the bucket
+  bucketName: ${test}
